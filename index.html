@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Mehar Umer — GitHub Profile</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+
+:root {
+  --black:  #030303;
+  --surf:   #0D0B08;
+  --amber:  #FFB000;
+  --ember:  #FF6B00;
+  --cyan:   #00D4FF;
+  --cream:  #C9B896;
+  --dim:    #4A4030;
+  --glow:   0 0 20px rgba(255,176,0,.4);
+  --glow2:  0 0 40px rgba(255,176,0,.7);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--black);
+  color:var(--cream);
+  font-family:'JetBrains Mono',monospace;
+  font-size:14px;
+  line-height:1.75;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* ═══ CANVAS LAYERS ═══ */
+#c-stars,#c-grid,#c-sparks{position:fixed;inset:0;pointer-events:none;}
+#c-stars{z-index:0}
+#c-grid{z-index:1;opacity:.18}
+#c-sparks{z-index:2}
+
+/* ═══ SCANLINES ═══ */
+body::after{
+  content:'';position:fixed;inset:0;z-index:3;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.07) 2px,rgba(0,0,0,.07) 4px);
+  animation:scan 6s linear infinite;
+}
+@keyframes scan{to{background-position:0 80px}}
+
+/* ═══ HORIZONTAL SWEEP LIGHT ═══ */
+body::before{
+  content:'';position:fixed;inset:0;z-index:3;pointer-events:none;
+  background:linear-gradient(180deg,transparent 40%,rgba(255,176,0,.025) 50%,transparent 60%);
+  animation:sweep 4s ease-in-out infinite;
+}
+@keyframes sweep{0%,100%{transform:translateY(-100%)}50%{transform:translateY(200%)}}
+
+/* ═══ PAGE ═══ */
+.page{position:relative;z-index:4;max-width:880px;margin:0 auto;padding:0 24px 100px}
+
+/* ═══ BOOT ═══ */
+#boot{
+  position:fixed;inset:0;z-index:999;
+  background:var(--black);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  transition:opacity .7s,visibility .7s;
+}
+#boot.gone{opacity:0;visibility:hidden}
+#boot-ascii{color:var(--amber);font-size:11px;line-height:1.4;text-align:center;text-shadow:var(--glow);white-space:pre;animation:flicker 3s infinite}
+@keyframes flicker{0%,19%,21%,23%,25%,54%,56%,100%{opacity:1}20%,24%,55%{opacity:.4}}
+#boot-line{color:var(--cream);font-size:12px;letter-spacing:.1em;min-height:1.4em}
+#boot-bar-outer{width:300px;height:2px;background:#1a1510;overflow:hidden;border-radius:1px}
+#boot-bar{height:100%;width:0;background:linear-gradient(90deg,var(--ember),var(--amber));box-shadow:var(--glow);transition:width .08s linear}
+#boot-pct{color:var(--dim);font-size:11px}
+
+/* ═══ HERO ═══ */
+.hero{padding:90px 0 56px;text-align:center;opacity:0;animation:riseIn .9s ease forwards .3s}
+@keyframes riseIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+
+.hero-prompt{color:var(--dim);font-size:12px;letter-spacing:.14em;margin-bottom:28px}
+.hero-prompt .a{color:var(--amber)}
+
+/* GLITCH NAME */
+.glitch{
+  font-size:clamp(32px,6vw,56px);font-weight:700;
+  color:var(--amber);display:inline-block;
+  text-shadow:var(--glow2);
+  animation:glitch 4s infinite,pulse-glow 2s ease-in-out infinite alternate;
+  position:relative;letter-spacing:.05em;cursor:default;
+}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;inset:0;pointer-events:none}
+.glitch::before{color:var(--cyan);animation:gb1 4s infinite;clip-path:polygon(0 20%,100% 20%,100% 45%,0 45%)}
+.glitch::after{color:var(--ember);animation:gb2 4s infinite;clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%)}
+@keyframes glitch{
+  0%,89%,100%{transform:none}
+  90%{transform:translate(-3px,1px) skewX(-1deg)}
+  92%{transform:translate(3px,-2px) skewX(1deg)}
+  94%{transform:translate(-2px,2px)}
+  96%{transform:translate(2px,-1px)}
+  98%{transform:translate(-1px,1px)}
+}
+@keyframes gb1{
+  0%,88%,100%{transform:none;opacity:0}
+  89%{transform:translate(-4px);opacity:.9}
+  92%{transform:translate(4px);opacity:.9}
+  95%{opacity:0}
+}
+@keyframes gb2{
+  0%,91%,100%{transform:none;opacity:0}
+  92%{transform:translate(4px);opacity:.8}
+  96%{transform:translate(-3px);opacity:.8}
+  99%{opacity:0}
+}
+@keyframes pulse-glow{
+  from{text-shadow:0 0 20px rgba(255,176,0,.4),0 0 40px rgba(255,176,0,.2)}
+  to  {text-shadow:0 0 30px rgba(255,176,0,.8),0 0 60px rgba(255,176,0,.4),0 0 80px rgba(255,176,0,.2)}
+}
+
+/* TYPEWRITER ROLE */
+.role-line{margin-top:18px;font-size:15px;font-weight:300;letter-spacing:.06em;min-height:1.5em}
+.role-line .typed{color:var(--amber)}
+.cursor-blink{display:inline-block;width:10px;height:1.1em;background:var(--amber);vertical-align:middle;margin-left:3px;animation:blink 1s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* STATUS BADGES */
+.badges{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:30px}
+.badge{
+  padding:5px 16px;border:1px solid var(--dim);font-size:11px;
+  letter-spacing:.1em;color:var(--cream);border-radius:2px;
+  position:relative;overflow:hidden;cursor:default;
+  animation:badge-in .5s ease both;
+  transition:border-color .3s,color .3s,box-shadow .3s;
+}
+.badge:nth-child(1){animation-delay:.8s}
+.badge:nth-child(2){animation-delay:1s}
+.badge:nth-child(3){animation-delay:1.2s}
+.badge:nth-child(4){animation-delay:1.4s}
+@keyframes badge-in{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
+.badge::before{content:'';position:absolute;inset:0;background:var(--amber);transform:scaleX(0);transform-origin:left;transition:transform .3s ease;z-index:0}
+.badge:hover{border-color:var(--amber);color:var(--black);box-shadow:var(--glow)}
+.badge:hover::before{transform:scaleX(1)}
+.badge span{position:relative;z-index:1}
+
+/* PULSE DOT */
+.dot-live{display:inline-block;width:8px;height:8px;background:#3adc7a;border-radius:50%;vertical-align:middle;margin-right:5px;position:relative}
+.dot-live::before{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid #3adc7a;animation:pring 1.5s ease-out infinite}
+@keyframes pring{0%{transform:scale(.5);opacity:1}100%{transform:scale(2.2);opacity:0}}
+
+/* ═══ SECTIONS ═══ */
+.section{margin-top:64px;opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease}
+.section.vis{opacity:1;transform:none}
+
+.sec-hd{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.sec-prompt{color:var(--amber);font-size:13px;white-space:nowrap;animation:prompt-flash 3s ease-in-out infinite}
+@keyframes prompt-flash{0%,90%,100%{opacity:1}95%{opacity:.5}}
+.sec-line{flex:1;height:1px;background:linear-gradient(90deg,var(--dim),transparent)}
+
+/* ═══ TERMINAL ═══ */
+.term{background:var(--surf);border:1px solid #201a10;border-radius:4px;overflow:hidden;position:relative}
+.term::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:linear-gradient(180deg,rgba(255,176,0,.04) 0%,transparent 60%);
+}
+.term-bar{background:#100e08;padding:9px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #201a10}
+.td{width:10px;height:10px;border-radius:50%}
+.td-r{background:#3a1515}.td-y{background:#3a3000}.td-g{background:#0a2810}
+.t-title{margin-left:auto;font-size:11px;color:var(--dim)}
+.term-body{padding:20px 24px;font-size:13px;position:relative;z-index:2}
+.ln{display:block;line-height:2}
+.k{color:var(--dim)}.v{color:var(--cream)}.a{color:var(--amber)}.c{color:#5a9a6a}.e{color:var(--ember)}.cy{color:var(--cyan)}
+
+/* ═══ SKILLS ═══ */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:12px}
+.sk{
+  background:var(--surf);border:1px solid #201a10;border-radius:3px;
+  padding:16px 10px;text-align:center;position:relative;overflow:hidden;
+  cursor:default;transition:transform .3s,border-color .3s,box-shadow .3s;
+  animation:sk-in .4s ease both;
+}
+@keyframes sk-in{from{opacity:0;transform:scale(.7) rotateX(20deg)}to{opacity:1;transform:none}}
+.sk:hover{transform:translateY(-5px) scale(1.04);border-color:#3a3020;box-shadow:0 8px 24px rgba(255,176,0,.15)}
+.sk::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ember),var(--amber));transform:scaleX(0);transition:transform .3s ease}
+.sk:hover::after{transform:scaleX(1)}
+.sk-icon{font-size:24px;display:block;margin-bottom:6px;transition:transform .3s}
+.sk:hover .sk-icon{transform:scale(1.2) rotate(-5deg)}
+.sk-name{font-size:11px;color:var(--dim);letter-spacing:.06em;transition:color .3s}
+.sk:hover .sk-name{color:var(--amber)}
+
+/* ═══ PROJECTS ═══ */
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:560px){.proj-grid{grid-template-columns:1fr}}
+.pc{
+  background:var(--surf);border:1px solid #201a10;border-radius:4px;padding:22px;
+  position:relative;overflow:hidden;cursor:default;
+  transition:transform .35s,border-color .35s,box-shadow .35s;
+}
+.pc::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 0%,rgba(255,176,0,.08),transparent 70%);
+  opacity:0;transition:opacity .4s;
+}
+.pc:hover{transform:translateY(-6px);border-color:#3a3020;box-shadow:0 16px 40px rgba(255,176,0,.12)}
+.pc:hover::before{opacity:1}
+/* scanning light stripe */
+.pc::after{
+  content:'';position:absolute;top:0;left:-100%;right:auto;bottom:0;width:60%;
+  background:linear-gradient(90deg,transparent,rgba(255,176,0,.06),transparent);
+  transition:left .6s ease;
+}
+.pc:hover::after{left:150%}
+.p-tag{font-size:10px;letter-spacing:.14em;color:var(--ember);margin-bottom:8px}
+.p-name{font-size:16px;font-weight:700;color:var(--amber);margin-bottom:8px;text-shadow:0 0 12px rgba(255,176,0,.3)}
+.p-desc{font-size:12px;color:var(--dim);line-height:1.75;margin-bottom:16px}
+.p-stack{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:10px;padding:3px 9px;border:1px solid #2a2510;border-radius:2px;color:var(--cream);letter-spacing:.06em;transition:border-color .3s,color .3s}
+.pc:hover .chip{border-color:var(--dim);color:var(--amber)}
+
+/* ═══ STATS ═══ */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:500px){.stats-row{grid-template-columns:1fr 1fr}}
+.stat{
+  background:var(--surf);border:1px solid #201a10;border-radius:4px;
+  padding:26px 14px;text-align:center;position:relative;overflow:hidden;
+  transition:transform .3s,box-shadow .3s;
+}
+.stat:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(255,176,0,.15)}
+.s-num{
+  font-size:40px;font-weight:700;color:var(--amber);
+  text-shadow:var(--glow2);display:block;line-height:1;
+  animation:num-glow 2s ease-in-out infinite alternate;
+}
+@keyframes num-glow{from{text-shadow:var(--glow)}to{text-shadow:var(--glow2)}}
+.s-lbl{font-size:11px;color:var(--dim);margin-top:8px;letter-spacing:.08em}
+/* shimmer bar */
+.stat::after{
+  content:'';position:absolute;bottom:0;left:-100%;right:auto;width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--amber),transparent);
+  animation:stat-sh 2.5s ease-in-out infinite;
+}
+.stat:nth-child(2)::after{animation-delay:.8s}
+.stat:nth-child(3)::after{animation-delay:1.6s}
+@keyframes stat-sh{0%{left:-100%}100%{left:100%}}
+
+/* ═══ CONNECT ═══ */
+.connect-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.cbtn{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:11px 26px;border:1px solid var(--dim);border-radius:2px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;
+  color:var(--cream);text-decoration:none;position:relative;overflow:hidden;
+  transition:color .3s,border-color .3s,box-shadow .3s;
+}
+.cbtn::before{content:'';position:absolute;inset:0;background:var(--amber);transform:scaleY(0);transform-origin:bottom;transition:transform .3s ease;z-index:0}
+.cbtn:hover{color:var(--black);border-color:var(--amber);box-shadow:var(--glow)}
+.cbtn:hover::before{transform:scaleY(1)}
+.cbtn svg,.cbtn span{position:relative;z-index:1}
+
+/* ═══ FOOTER ═══ */
+.footer{margin-top:80px;padding-top:26px;border-top:1px solid #1a1510;text-align:center;font-size:11px;color:var(--dim);letter-spacing:.08em}
+.footer .a{color:var(--amber)}
+
+/* ═══ MATRIX RAIN CANVAS ═══ */
+#c-matrix{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.07}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+</style>
+</head>
+<body>
+
+<canvas id="c-stars"></canvas>
+<canvas id="c-matrix"></canvas>
+<canvas id="c-grid"></canvas>
+<canvas id="c-sparks"></canvas>
+
+<!-- ═══ BOOT ═══ -->
+<div id="boot">
+  <pre id="boot-ascii">
+ ██╗   ██╗███╗   ███╗███████╗██████╗ 
+ ██║   ██║████╗ ████║██╔════╝██╔══██╗
+ ██║   ██║██╔████╔██║█████╗  ██████╔╝
+ ██║   ██║██║╚██╔╝██║██╔══╝  ██╔══██╗
+ ╚██████╔╝██║ ╚═╝ ██║███████╗██║  ██║
+  ╚═════╝ ╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝</pre>
+  <div id="boot-line">initializing...</div>
+  <div id="boot-bar-outer"><div id="boot-bar"></div></div>
+  <div id="boot-pct">0%</div>
+</div>
+
+<!-- ═══ PAGE ═══ -->
+<main class="page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-prompt">[ <span class="a">umer-cs07</span>@github:~ ]$ <span class="a">./boot --profile --animate</span></div>
+    <h1 class="glitch" data-text="MEHAR UMER">MEHAR UMER</h1>
+    <div class="role-line"><span class="typed" id="typed"></span><span class="cursor-blink"></span></div>
+    <div class="badges">
+      <div class="badge"><span><span class="dot-live"></span>Available</span></div>
+      <div class="badge"><span>BSCS · UMT Lahore</span></div>
+      <div class="badge"><span>Final Year · 2025</span></div>
+      <div class="badge"><span>🏏 Cricket &amp; Code</span></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section">
+    <div class="sec-hd"><span class="sec-prompt">$ cat about.md</span><div class="sec-line"></div></div>
+    <div class="term">
+      <div class="term-bar"><div class="td td-r"></div><div class="td td-y"></div><div class="td td-g"></div><div class="t-title">about.md — read</div></div>
+      <div class="term-body">
+        <span class="ln"><span class="k">## </span><span class="a">Who I Am</span></span>
+        <span class="ln">&nbsp;</span>
+        <span class="ln"><span class="v">BSCS student shipping full products end-to-end.</span></span>
+        <span class="ln"><span class="v">Rails + React on backend/web · React Native on mobile</span></span>
+        <span class="ln"><span class="v">Applied ML/CV when the project needs eyes.</span></span>
+        <span class="ln">&nbsp;</span>
+        <span class="ln"><span class="k">## </span><span class="a">What Drives Me</span></span>
+        <span class="ln">&nbsp;</span>
+        <span class="ln"><span class="c">▸</span> <span class="v">Cricket tech</span> <span class="k">— real-time scoring &amp; player matchmaking</span></span>
+        <span class="ln"><span class="c">▸</span> <span class="v">Marketplaces</span>  <span class="k">— full storefronts + admin dashboards</span></span>
+        <span class="ln"><span class="c">▸</span> <span class="v">ML Systems</span>   <span class="k">— WiFi CSI sensing, no cameras needed</span></span>
+        <span class="ln">&nbsp;</span>
+        <span class="ln"><span class="k">current </span><span class="v">= </span><span class="e">"SilentSense FYP"</span>  <span class="k">// WiFi-based human activity recognition</span></span>
+        <span class="ln"><span class="k">status  </span><span class="v">= </span><span class="cy">"actively building"</span><span class="cursor-blink" style="width:8px;height:12px"></span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section">
+    <div class="sec-hd"><span class="sec-prompt">$ ls ~/skills --icons</span><div class="sec-line"></div></div>
+    <div class="skills-grid" id="sk-grid">
+      <div class="sk" style="animation-delay:.05s"><span class="sk-icon">💎</span><span class="sk-name">Ruby</span></div>
+      <div class="sk" style="animation-delay:.1s"><span class="sk-icon">🛤️</span><span class="sk-name">Rails</span></div>
+      <div class="sk" style="animation-delay:.15s"><span class="sk-icon">⚛️</span><span class="sk-name">React</span></div>
+      <div class="sk" style="animation-delay:.2s"><span class="sk-icon">📱</span><span class="sk-name">React Native</span></div>
+      <div class="sk" style="animation-delay:.25s"><span class="sk-icon">🐍</span><span class="sk-name">Python</span></div>
+      <div class="sk" style="animation-delay:.3s"><span class="sk-icon">🧠</span><span class="sk-name">TensorFlow</span></div>
+      <div class="sk" style="animation-delay:.35s"><span class="sk-icon">👁️</span><span class="sk-name">OpenCV</span></div>
+      <div class="sk" style="animation-delay:.4s"><span class="sk-icon">🗄️</span><span class="sk-name">PostgreSQL</span></div>
+      <div class="sk" style="animation-delay:.45s"><span class="sk-icon">⚡</span><span class="sk-name">Supabase</span></div>
+      <div class="sk" style="animation-delay:.5s"><span class="sk-icon">🌐</span><span class="sk-name">HTML/CSS/JS</span></div>
+      <div class="sk" style="animation-delay:.55s"><span class="sk-icon">⚙️</span><span class="sk-name">C++</span></div>
+      <div class="sk" style="animation-delay:.6s"><span class="sk-icon">🐙</span><span class="sk-name">Git</span></div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section">
+    <div class="sec-hd"><span class="sec-prompt">$ ls -la ~/projects</span><div class="sec-line"></div></div>
+    <div class="proj-grid">
+      <div class="pc">
+        <div class="p-tag">FEATURED · MOBILE</div>
+        <div class="p-name">11th-Man 🏏</div>
+        <div class="p-desc">Cricket player &amp; team matchmaking with live over-by-over scoring. The whole game in your pocket.</div>
+        <div class="p-stack"><span class="chip">React Native</span><span class="chip">Supabase</span><span class="chip">Realtime</span></div>
+      </div>
+      <div class="pc">
+        <div class="p-tag">FINAL YEAR · ML/CV</div>
+        <div class="p-name">SilentSense 📡</div>
+        <div class="p-desc">WiFi CSI human activity recognition — no cameras, no wearables. Just the signal around you.</div>
+        <div class="p-stack"><span class="chip">Python</span><span class="chip">TensorFlow</span><span class="chip">WiFi CSI</span></div>
+      </div>
+      <div class="pc">
+        <div class="p-tag">FULL-STACK · WEB</div>
+        <div class="p-name">E-Commerce Platform 🛒</div>
+        <div class="p-desc">Complete storefront + admin dashboard built for small businesses needing a real online presence.</div>
+        <div class="p-stack"><span class="chip">Rails</span><span class="chip">React</span><span class="chip">PostgreSQL</span></div>
+      </div>
+      <div class="pc">
+        <div class="p-tag">UTILITY · PYTHON</div>
+        <div class="p-name">Splitwise Pro 💸</div>
+        <div class="p-desc">Expense splitting that's actually fair — modeled on the real problem of splitting messy group bills.</div>
+        <div class="p-stack"><span class="chip">Python</span><span class="chip">HTML/CSS/JS</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="section">
+    <div class="sec-hd"><span class="sec-prompt">$ ./stats.sh --verbose</span><div class="sec-line"></div></div>
+    <div class="stats-row">
+      <div class="stat"><span class="s-num" data-to="4">0</span><div class="s-lbl">Projects Shipped</div></div>
+      <div class="stat"><span class="s-num" data-to="5">0</span><div class="s-lbl">Tech Stacks</div></div>
+      <div class="stat"><span class="s-num" data-to="3">0</span><div class="s-lbl">Years Coding</div></div>
+    </div>
+  </section>
+
+  <!-- LIVE LOG -->
+  <section class="section">
+    <div class="sec-hd"><span class="sec-prompt">$ tail -f focus.log</span><div class="sec-line"></div></div>
+    <div class="term">
+      <div class="term-bar"><div class="td td-r"></div><div class="td td-y"></div><div class="td td-g"></div><div class="t-title">focus.log — LIVE</div></div>
+      <div class="term-body">
+        <span class="ln"><span class="c">[2025-01-01]</span> <span class="v">Started SilentSense — WiFi-based human sensing</span></span>
+        <span class="ln"><span class="c">[2025-02-14]</span> <span class="v">Integrated CSI pipeline with TensorFlow model</span></span>
+        <span class="ln"><span class="c">[2025-04-30]</span> <span class="v">11th-Man v2 — live over-by-over scoring shipped</span></span>
+        <span class="ln"><span class="a">[ongoing..]</span>  <span class="cy">Refining gesture recognition accuracy</span> <span class="cursor-blink" style="width:8px;height:12px"></span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONNECT -->
+  <section class="section">
+    <div class="sec-hd"><span class="sec-prompt">$ echo "connect"</span><div class="sec-line"></div></div>
+    <div class="connect-row">
+      <a href="https://github.com/UMER-CS07" class="cbtn" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        <span>GITHUB</span>
+      </a>
+      <a href="https://www.linkedin.com/in/umer-iftikhar-868990362/" class="cbtn" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        <span>LINKEDIN</span>
+      </a>
+      <a href="mailto:meharumerzero07.com" class="cbtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span>EMAIL</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p><span class="a">umer-cs07</span>@github:~ % <span class="a">shutdown -h now</span></p>
+    <p style="margin-top:8px;font-size:10px;opacity:.6">crafted with ☕ + obsession · powered by cricket &amp; late nights</p>
+  </footer>
+
+</main>
+
+<script>
+/* ══════════════════════════════════════
+   STARFIELD — amber particles drifting
+══════════════════════════════════════ */
+(function(){
+  const c=document.getElementById('c-stars'),ctx=c.getContext('2d');
+  let W,H,stars=[];
+  const resize=()=>{W=c.width=innerWidth;H=c.height=innerHeight};
+  const mk=()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.4+.2,a:Math.random()*.5+.05,sp:Math.random()*.18+.02,dr:(Math.random()-.5)*.08});
+  resize();stars=Array.from({length:200},mk);
+  const draw=()=>{
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,176,0,${s.a})`;ctx.fill();
+      s.y+=s.sp;s.x+=s.dr;
+      s.a+=(Math.random()-.5)*.015;
+      s.a=Math.max(.03,Math.min(.7,s.a));
+      if(s.y>H+2){s.y=-2;s.x=Math.random()*W}
+      if(s.x>W+2)s.x=-2;if(s.x<-2)s.x=W+2;
+    });
+    requestAnimationFrame(draw);
+  };
+  addEventListener('resize',resize);draw();
+})();
+
+/* ══════════════════════════════════════
+   MATRIX RAIN — amber characters
+══════════════════════════════════════ */
+(function(){
+  const c=document.getElementById('c-matrix'),ctx=c.getContext('2d');
+  let W,H,cols,drops=[];
+  const resize=()=>{
+    W=c.width=innerWidth;H=c.height=innerHeight;
+    cols=Math.floor(W/18);drops=Array.from({length:cols},()=>Math.random()*H/14|0);
+  };
+  const chars='ウエオカキクケコサシスセソタチツテトナニヌネノ01';
+  resize();
+  const draw=()=>{
+    ctx.fillStyle='rgba(3,3,3,.08)';ctx.fillRect(0,0,W,H);
+    ctx.font='14px JetBrains Mono';
+    drops.forEach((y,i)=>{
+      const ch=chars[Math.random()*chars.length|0];
+      ctx.fillStyle=i%5===0?'rgba(255,176,0,.9)':'rgba(255,176,0,.35)';
+      ctx.fillText(ch,i*18,y*14);
+      if(y*14>H&&Math.random()>.975)drops[i]=0;
+      else drops[i]++;
+    });
+    requestAnimationFrame(draw);
+  };
+  addEventListener('resize',resize);draw();
+})();
+
+/* ══════════════════════════════════════
+   PERSPECTIVE GRID
+══════════════════════════════════════ */
+(function(){
+  const c=document.getElementById('c-grid'),ctx=c.getContext('2d');
+  let W,H,t=0;
+  const resize=()=>{W=c.width=innerWidth;H=c.height=innerHeight};
+  resize();
+  const draw=()=>{
+    ctx.clearRect(0,0,W,H);
+    const vp={x:W/2,y:H*.35};
+    const horizon=H*.35,floor=H;
+    ctx.strokeStyle='rgba(255,176,0,1)';ctx.lineWidth=.6;
+    const cols2=12,rows2=16,offset=(t*.5)%((floor-horizon)/rows2);
+    for(let r=0;r<=rows2;r++){
+      const progress=(r/rows2);
+      const y=horizon+offset+progress*(floor-horizon-offset);
+      const spread=(y-horizon)/(floor-horizon);
+      const x0=vp.x-(W*.8)*spread,x1=vp.x+(W*.8)*spread;
+      ctx.globalAlpha=spread*.4;
+      ctx.beginPath();ctx.moveTo(x0,y);ctx.lineTo(x1,y);ctx.stroke();
+    }
+    for(let col=-cols2/2;col<=cols2/2;col++){
+      const xEnd=vp.x+col*(W*.8/cols2);
+      ctx.globalAlpha=.15;
+      ctx.beginPath();ctx.moveTo(vp.x,horizon);ctx.lineTo(xEnd,floor);ctx.stroke();
+    }
+    ctx.globalAlpha=1;t++;
+    requestAnimationFrame(draw);
+  };
+  addEventListener('resize',resize);draw();
+})();
+
+/* ══════════════════════════════════════
+   MOUSE SPARKS
+══════════════════════════════════════ */
+(function(){
+  const c=document.getElementById('c-sparks'),ctx=c.getContext('2d');
+  let W,H,particles=[];
+  const resize=()=>{W=c.width=innerWidth;H=c.height=innerHeight};
+  resize();addEventListener('resize',resize);
+  addEventListener('mousemove',e=>{
+    for(let i=0;i<3;i++){
+      particles.push({
+        x:e.clientX,y:e.clientY,
+        vx:(Math.random()-.5)*3,vy:(Math.random()-1)*3,
+        life:1,r:Math.random()*2+1
+      });
+    }
+  });
+  const draw=()=>{
+    ctx.clearRect(0,0,W,H);
+    particles=particles.filter(p=>p.life>0);
+    particles.forEach(p=>{
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r*p.life,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,${100+p.life*76|0},0,${p.life*.8})`;
+      ctx.fill();
+      p.x+=p.vx;p.y+=p.vy;p.vy+=.08;p.life-=.04;p.r*=.97;
+    });
+    requestAnimationFrame(draw);
+  };draw();
+})();
+
+/* ══════════════════════════════════════
+   BOOT SEQUENCE
+══════════════════════════════════════ */
+(function(){
+  const msgs=[
+    'BIOS POST .............. OK',
+    'Detecting hardware ..... OK',
+    'Loading /skills ........ OK',
+    'Mounting Supabase ...... OK',
+    'Compiling Rails ........ OK',
+    'Bundling React ......... OK',
+    'Training model ......... OK',
+    'Loading profile ........ OK',
+    'Rendering Mehar Umer',
+  ];
+  const lineEl=document.getElementById('boot-line');
+  const bar=document.getElementById('boot-bar');
+  const pct=document.getElementById('boot-pct');
+  const boot=document.getElementById('boot');
+  let i=0;
+  const step=()=>{
+    if(i<msgs.length){
+      lineEl.textContent=msgs[i++];
+      const p=Math.round(i/msgs.length*100);
+      bar.style.width=p+'%';pct.textContent=p+'%';
+      setTimeout(step,i===msgs.length?600:180+Math.random()*160);
+    }else{
+      setTimeout(()=>boot.classList.add('gone'),500);
+    }
+  };
+  setTimeout(step,300);
+})();
+
+/* ══════════════════════════════════════
+   TYPEWRITER ROLES
+══════════════════════════════════════ */
+(function(){
+  const roles=['Full-Stack Engineer','Rails + React Developer','React Native Builder','Applied ML Engineer','Cricket Tech Creator'];
+  const el=document.getElementById('typed');
+  let ri=0,ci=0,deleting=false;
+  const type=()=>{
+    const r=roles[ri];
+    if(!deleting){
+      el.textContent=r.slice(0,++ci);
+      if(ci===r.length){deleting=true;setTimeout(type,1800);return}
+    }else{
+      el.textContent=r.slice(0,--ci);
+      if(ci===0){deleting=false;ri=(ri+1)%roles.length}
+    }
+    setTimeout(type,deleting?55:100);
+  };
+  setTimeout(type,1800);
+})();
+
+/* ══════════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════════ */
+new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')})},{threshold:.1})
+  .observe.bind(new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')})},{threshold:.1}));
+
+(()=>{
+  const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')})},{threshold:.1});
+  document.querySelectorAll('.section').forEach(s=>obs.observe(s));
+})();
+
+/* ══════════════════════════════════════
+   COUNT-UP STATS
+══════════════════════════════════════ */
+(()=>{
+  const obs=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(!e.isIntersecting)return;
+      const el=e.target,to=+el.dataset.to;
+      let v=0;const dur=1400,step=16;
+      const t=setInterval(()=>{
+        v+=to/(dur/step);
+        if(v>=to){el.textContent=to;clearInterval(t)}
+        else el.textContent=Math.floor(v);
+      },step);
+      obs.unobserve(el);
+    });
+  },{threshold:.5});
+  document.querySelectorAll('.s-num[data-to]').forEach(n=>obs.observe(n));
+})();
+
+/* ══════════════════════════════════════
+   SKILL CARDS — staggered entry on scroll
+══════════════════════════════════════ */
+(()=>{
+  const obs=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(!e.isIntersecting)return;
+      e.target.querySelectorAll('.sk').forEach((s,i)=>{
+        setTimeout(()=>{s.style.opacity='1';s.style.transform='none'},i*60);
+      });
+      obs.unobserve(e.target);
+    });
+  },{threshold:.1});
+  const g=document.getElementById('sk-grid');
+  if(g){g.querySelectorAll('.sk').forEach(s=>{s.style.opacity='0';s.style.transform='scale(.6) rotateX(20deg)'});obs.observe(g)}
+})();
+</script>
+</body>
+</html>
